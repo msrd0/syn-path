@@ -1,0 +1,27 @@
+# -*- eval: (cargo-minor-mode 1) -*-
+
+[package]
+name = "syn-path"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+license = "0BSD"
+description = "A simple macro to declare a syn::Path at compile time"
+categories = ["development-tools::procedural-macro-helpers"]
+keywords = ["syn", "path"]
+
+repository = "https://github.com/msrd0/syn-path"
+readme = "README.md"
+include = ["src/**/*", "README.md", "LICENSE"]
+
+[features]
+default = ["proc-macro"]
+proc-macro = ["proc-macro2/proc-macro", "syn/proc-macro"]
+
+[dependencies]
+proc-macro2 = { version = "1.0", default-features = false }
+syn = { version = "1.0", features = ["full"], default-features = false }
+
+[dev-dependencies]
+syn = { version = "1.0", features = ["extra-traits", "parsing", "printing"], default-features = false }
