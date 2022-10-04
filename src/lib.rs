@@ -2,7 +2,8 @@
 #![deny(elided_lifetimes_in_paths)]
 #![forbid(unsafe_code)]
 
-//! This crate contains a macro to turn a path into a `syn::Path` at compile time.
+//! This crate contains the [`path!`] macro to turn a path into a [`syn::Path`] at
+//! compile time.
 
 #[doc(hidden)]
 pub mod private {
