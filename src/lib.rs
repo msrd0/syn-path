@@ -11,26 +11,35 @@ pub mod private {
 		option::Option::{None, Some}
 	};
 	pub use proc_macro2::{Ident, Span};
+	pub use std::stringify;
 	pub use syn::{punctuated::Punctuated, Path, PathSegment};
 }
 
-/// An extremely simple macro that can take paths of the form `my_crate::my_mod::FooBar` and `::my_crate::my_mod::FooBar`
-/// and turn them into a `syn::Path`.
+/// A simple macro that can take paths of the form `my_crate::my_mod::FooBar` and
+/// `::my_crate::my_mod::FooBar` and turn them into a `syn::Path`.
 #[macro_export]
 macro_rules! path {
 	(:: $($segment:ident)::*) => {
-		path!(@private $crate::private::Some($crate::private::Default::default()), $($segment),*)
+		$crate::private!($crate::private::Some($crate::private::Default::default()), $($segment),*)
 	};
 	($($segment:ident)::*) => {
-		path!(@private $crate::private::None, $($segment),*)
+		$crate::private!($crate::private::None, $($segment),*)
 	};
-	(@private $leading_colon:expr, $($segment:ident),*) => {
+}
+
+#[macro_export]
+#[doc(hidden)]
+macro_rules! private {
+	($leading_colon:expr, $($segment:ident),*) => {
 		{
 			#[allow(unused_mut)]
 			let mut segments: $crate::private::Punctuated<$crate::private::PathSegment, _> = $crate::private::Default::default();
 			$(
 				segments.push($crate::private::PathSegment {
-					ident: $crate::private::Ident::new(stringify!($segment), $crate::private::Span::call_site()),
+					ident: $crate::private::Ident::new(
+						$crate::private::stringify!($segment),
+						$crate::private::Span::call_site()
+					),
 					arguments: $crate::private::Default::default()
 				});
 			)*
