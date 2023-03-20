@@ -9,10 +9,10 @@
 pub mod private {
 	pub use core::{
 		default::Default,
-		option::Option::{None, Some}
+		option::Option::{None, Some},
+		stringify
 	};
 	pub use proc_macro2::{Ident, Span};
-	pub use std::stringify;
 	pub use syn::{punctuated::Punctuated, Path, PathSegment};
 }
 
